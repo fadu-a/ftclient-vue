@@ -129,9 +129,8 @@ export default new Vuex.Store({
         .then(() => {
           context.commit("DELETE_RUNNER", runner);
         })
-        .catch(function(error) {
-          // TODO: Error handling
-          console.log(error);
+        .catch(function(err) {
+          console.log(err.response);
         });
     }
   }

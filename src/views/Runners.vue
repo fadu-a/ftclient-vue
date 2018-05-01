@@ -2,7 +2,7 @@
   <div class="runners">
     <b-container>
       <b-alert 
-        :show="errorMessage" 
+        :show="!!errorMessage"
         variant="danger">
         {{ errorMessage }}
       </b-alert>
