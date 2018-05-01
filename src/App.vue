@@ -1,9 +1,15 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="md" type="dark" variant="dark" :sticky=true>
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+    <b-navbar 
+      :sticky="true" 
+      toggleable="md" 
+      type="dark" 
+      variant="dark">
+      <b-navbar-toggle target="nav_collapse"/>
       <b-navbar-brand to="/">FADU</b-navbar-brand>
-      <b-collapse is-nav id="nav_collapse">
+      <b-collapse 
+        id="nav_collapse" 
+        is-nav>
         <b-navbar-nav>
           <b-nav-item to="/runners">Runners</b-nav-item>
           <b-nav-item to="/scripts">Scripts</b-nav-item>
@@ -13,7 +19,7 @@
       </b-collapse>
     </b-navbar>
 
-    <div class="my-4"></div>
+    <div class="my-4"/>
 
     <router-view/>
   </div>
@@ -24,7 +30,6 @@
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 </style>
