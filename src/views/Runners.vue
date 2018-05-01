@@ -1,11 +1,23 @@
 <template>
   <div class="runners">
-    <h1>This is a runner list page</h1>
+    <b-container>
+      <b-alert 
+        :show="errorMessage" 
+        variant="danger">
+        {{ errorMessage }}
+      </b-alert>
+      <router-view/>
+    </b-container>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Runners"
+  name: "Runners",
+  computed: {
+    errorMessage() {
+      return this.$store.getters.errorMessage;
+    }
+  }
 };
 </script>

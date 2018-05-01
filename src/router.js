@@ -3,6 +3,9 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import About from "./views/About.vue";
 import Runners from "./views/Runners.vue";
+import RunnerList from "./views/Runners/RunnerList.vue";
+import RunnerNew from "./views/Runners/RunnerNew.vue";
+import RunnerEdit from "./views/Runners/RunnerEdit.vue";
 import Results from "./views/Results.vue";
 import Scripts from "./views/Scripts.vue";
 
@@ -12,7 +15,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "Home",
+      name: "home",
       component: Home
     },
     {
@@ -22,17 +25,32 @@ export default new Router({
     },
     {
       path: "/runners",
-      name: "Runners",
-      component: Runners
+      component: Runners,
+      children: [
+        {
+          path: "",
+          component: RunnerList
+        },
+        {
+          path: "new",
+          component: RunnerNew
+        },
+        {
+          path: ":runnerId/edit",
+          name: "runner-edit",
+          component: RunnerEdit,
+          props: true
+        }
+      ]
     },
     {
       path: "/scripts",
-      name: "Scripts",
+      name: "scripts",
       component: Scripts
     },
     {
       path: "/results",
-      name: "Results",
+      name: "results",
       component: Results
     }
   ]
