@@ -7,14 +7,14 @@ export default {
   name: "RunnerStatusBadge",
   props: {
     status: {
-      type: String,
+      type: Number,
       required: true
     }
   },
   computed: {
     variantType() {
       switch (this.status) {
-        case "ok":
+        case 1:
           return "success";
         default:
           return "danger";
@@ -22,7 +22,7 @@ export default {
     },
     badgeText() {
       switch (this.status) {
-        case "ok":
+        case 1:
           return "Idle";
         default:
           return "Not Reachable";
