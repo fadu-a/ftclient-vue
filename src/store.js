@@ -4,7 +4,7 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
-const managerUrl = "http://localhost:3000";
+const managerUrl = "http://localhost:8000/api";
 
 export default new Vuex.Store({
   state: {
@@ -53,8 +53,8 @@ export default new Vuex.Store({
       state.runnerList.push(payload);
     },
     UPDATE_RUNNER(state, payload) {
-      const index = state.runnerList.indexOf(payload);
-      state.runnerList[index] = payload;
+      const index = state.runnerList.findIndex(r => r.id == payload.id);
+      Vue.set(state.runnerList, index, payload);
     },
     DELETE_RUNNER(state, payload) {
       state.runnerList.splice(state.runnerList.indexOf(payload), 1);
@@ -70,7 +70,7 @@ export default new Vuex.Store({
     getRunnerList(context) {
       context.commit("RESET_ERROR_MESSAGE");
       axios
-        .get(`${managerUrl}/runners`)
+        .get(`${managerUrl}/runners/`)
         .then(res => res.data)
         .then(runnerList => {
           context.commit("SET_RUNNER_LIST", runnerList);
@@ -87,11 +87,9 @@ export default new Vuex.Store({
     addRunner(context, payload) {
       context.commit("RESET_ERROR_MESSAGE");
       axios
-        .post(`${managerUrl}/runners`, {
-          runner: {
-            host: payload.host,
-            port: payload.port
-          }
+        .post(`${managerUrl}/runners/`, {
+          host: payload.host,
+          port: payload.port
         })
         .then(res => res.data)
         .then(runner => {
@@ -106,11 +104,9 @@ export default new Vuex.Store({
     updateRunner(context, payload) {
       context.commit("RESET_ERROR_MESSAGE");
       axios
-        .put(`${managerUrl}/runners/${payload.id}`, {
-          runner: {
-            host: payload.host,
-            port: payload.port
-          }
+        .put(`${managerUrl}/runners/${payload.id}/`, {
+          host: payload.host,
+          port: payload.port
         })
         .then(res => res.data)
         .then(runner => {
@@ -125,9 +121,20 @@ export default new Vuex.Store({
     deleteRunner(context, runner) {
       context.commit("RESET_ERROR_MESSAGE");
       axios
-        .delete(`${managerUrl}/runners/${runner.id}`)
+        .delete(`${managerUrl}/runners/${runner.id}/`)
         .then(() => {
           context.commit("DELETE_RUNNER", runner);
+        })
+        .catch(function(err) {
+          console.log(err.response);
+        });
+    },
+    checkRunner(context, runner) {
+      axios
+        .get(`${managerUrl}/runners/${runner.id}/check/`)
+        .then(res => res.data)
+        .then(runner => {
+          context.commit("UPDATE_RUNNER", runner);
         })
         .catch(function(err) {
           console.log(err.response);

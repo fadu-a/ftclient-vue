@@ -16,11 +16,18 @@
       <template
         slot="status"
         slot-scope="row">
-        <RunnerStatusBadge status="row.value"/>
+        <RunnerStatusBadge :status="row.value"/>
       </template>
       <template
         slot="actions"
         slot-scope="row">
+        <b-button
+          size="sm"
+          class="mr-1"
+          variant="outline-primary"
+          @click.stop="checkRunner(row.item)">
+          Check
+        </b-button>
         <b-button
           size="sm"
           class="mr-1"
@@ -48,6 +55,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import RunnerStatusBadge from "../../components/Runners/RunnerStatusBadge.vue";
 
 export default {
@@ -67,14 +75,15 @@ export default {
     };
   },
   computed: {
-    runnerList() {
-      return this.$store.getters.runnerList;
-    }
+    ...mapGetters(["runnerList"])
   },
   created() {
     this.$store.dispatch("getRunnerList");
   },
   methods: {
+    checkRunner(runner) {
+      this.$store.dispatch("checkRunner", runner);
+    },
     deleteRunner(runner) {
       if (window.confirm("Are you sure?")) {
         this.$store.dispatch("deleteRunner", runner);
