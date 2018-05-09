@@ -87,7 +87,6 @@ export default new Vuex.Store({
     },
     DELETE_FIO_TESTCASE(state, testcase) {
       state.fioTestcaseList = Vue._.omit(state.fioTestcaseList, testcase.id);
->>>>>>> develop
     }
   },
   actions: {
