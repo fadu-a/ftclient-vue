@@ -13,6 +13,7 @@
         <b-navbar-nav>
           <b-nav-item to="/runners">Runners</b-nav-item>
           <b-nav-item to="/scripts">Scripts</b-nav-item>
+          <b-nav-item to="/fio/testcases">Testcases</b-nav-item>
           <b-nav-item to="/results">Results</b-nav-item>
           <b-nav-item to="/about">About</b-nav-item>
         </b-navbar-nav>

@@ -16,12 +16,14 @@ export default new Vuex.Store({
       status: null,
       info: null
     },
-    errorMessage: null
+    errorMessage: null,
+    fioTestcaseList: {}
   },
   getters: {
     runnerList: state => state.runnerList,
     runner: state => state.runner,
-    errorMessage: state => state.errorMessage
+    errorMessage: state => state.errorMessage,
+    fioTestcaseList: state => Vue._.values(state.fioTestcaseList)
   },
   mutations: {
     SET_RUNNER_LIST(state, payload) {
@@ -64,6 +66,16 @@ export default new Vuex.Store({
     },
     RESET_ERROR_MESSAGE(state) {
       state.errorMessage = null;
+    },
+    SET_FIO_TESTCASE_LIST(state, testcaseList) {
+      state.fioTestcaseList = Vue._.reduce(
+        testcaseList,
+        function(obj, testcase) {
+          obj[testcase.id] = testcase;
+          return obj;
+        },
+        {}
+      );
     }
   },
   actions: {
@@ -138,6 +150,15 @@ export default new Vuex.Store({
         })
         .catch(function(err) {
           console.log(err.response);
+        });
+    },
+    getFioTestcaseList(context) {
+      context.commit("RESET_ERROR_MESSAGE");
+      axios
+        .get(`${managerUrl}/fio/testcases/`)
+        .then(res => res.data)
+        .then(testcaseList => {
+          context.commit("SET_FIO_TESTCASE_LIST", testcaseList);
         });
     }
   }
