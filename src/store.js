@@ -76,6 +76,12 @@ export default new Vuex.Store({
         },
         {}
       );
+    },
+    ADD_FIO_TESTCASE(state, testcase) {
+      state.fioTestcaseList[testcase.id] = testcase;
+    },
+    DELETE_FIO_TESTCASE(state, testcase) {
+      state.fioTestcaseList = Vue._.omit(state.fioTestcaseList, testcase.id);
     }
   },
   actions: {
@@ -159,6 +165,34 @@ export default new Vuex.Store({
         .then(res => res.data)
         .then(testcaseList => {
           context.commit("SET_FIO_TESTCASE_LIST", testcaseList);
+        });
+    },
+    addFioTestcase(context, payload) {
+      context.commit("RESET_ERROR_MESSAGE");
+      axios
+        .post(`${managerUrl}/fio/testcases/`, {
+          name: payload.name,
+          extra: payload.configs
+        })
+        .then(res => res.data)
+        .then(testcase => {
+          context.commit("ADD_FIO_TESTCASE", testcase);
+          payload.router.push("/fio/testcases");
+        })
+        .catch(err => {
+          console.log(err.response);
+          context.commit("SET_ERROR_MESSAGE", "FIO Testcase 추가 실패");
+        });
+    },
+    deleteFioTestcase(context, payload) {
+      context.commit("RESET_ERROR_MESSAGE");
+      axios
+        .delete(`${managerUrl}/fio/testcases/${payload.id}/`)
+        .then(() => {
+          context.commit("DELETE_FIO_TESTCASE", payload);
+        })
+        .catch(function(err) {
+          console.log(err.response);
         });
     }
   }

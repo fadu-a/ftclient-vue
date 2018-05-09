@@ -8,6 +8,7 @@ import RunnerNew from "./views/Runners/RunnerNew.vue";
 import RunnerEdit from "./views/Runners/RunnerEdit.vue";
 import FioTestcases from "./views/FioTestcases.vue";
 import FioTestcaseList from "./views/FioTestcases/FioTestcaseList.vue";
+import FioTestcaseNew from "./views/FioTestcases/FioTestcaseNew.vue";
 import Results from "./views/Results.vue";
 import Scripts from "./views/Scripts.vue";
 
@@ -52,6 +53,10 @@ export default new Router({
         {
           path: "",
           component: FioTestcaseList
+        },
+        {
+          path: "new",
+          component: FioTestcaseNew
         }
       ]
     },

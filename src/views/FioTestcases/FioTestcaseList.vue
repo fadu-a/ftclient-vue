@@ -5,7 +5,7 @@
     <b-button
       variant="primary"
       class="float-right mb-2"
-      to="">
+      to="/fio/testcases/new">
       Add Testcase
     </b-button>
 
@@ -20,14 +20,14 @@
           size="sm"
           class="mr-1"
           variant="info"
-          @click.stop="showTestcaseDetail(row.item, $event.target)">
+          @click.stop="showDetail(row.item, $event.target)">
           Show
         </b-button>
         <b-button
           size="sm"
           class="mr-1"
           variant="danger"
-          @click.stop="">
+          @click.stop="deleteTestcase(row.item)">
           Delete
         </b-button>
       </template>
@@ -35,10 +35,10 @@
 
     <b-modal 
       id="detail-modal"
-      :title="testcaseDetail.name" 
+      :title="detail.name"
       ok-only 
-      @hide="resetTestcaseDetail">
-      <pre>{{ testcaseDetail.configs }}</pre>
+      @hide="resetDetail">
+      <pre>{{ detail.configs }}</pre>
     </b-modal>
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
         { key: "name", label: "Name", sortable: true },
         { key: "actions", label: "Actions" }
       ],
-      testcaseDetail: {
+      detail: {
         name: "",
         configs: null
       }
@@ -68,14 +68,19 @@ export default {
     this.$store.dispatch("getFioTestcaseList");
   },
   methods: {
-    showTestcaseDetail(item, button) {
-      this.testcaseDetail.name = item.name;
-      this.testcaseDetail.configs = item.extra;
+    showDetail(item, button) {
+      this.detail.name = item.name;
+      this.detail.configs = item.extra;
       this.$root.$emit("bv::show::modal", "detail-modal", button);
     },
-    resetTestcaseDetail() {
-      this.testcaseDetail.name = "";
-      this.testcaseDetail.configs = null;
+    resetDetail() {
+      this.detail.name = "";
+      this.detail.configs = null;
+    },
+    deleteTestcase(testcase) {
+      if (window.confirm("Are you sure?")) {
+        this.$store.dispatch("deleteFioTestcase", testcase);
+      }
     }
   }
 };
