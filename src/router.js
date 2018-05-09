@@ -8,7 +8,6 @@ import RunnerNew from "./views/Runners/RunnerNew.vue";
 import RunnerEdit from "./views/Runners/RunnerEdit.vue";
 import Results from "./views/Results.vue";
 import Scripts from "./views/Scripts.vue";
-import Presets from "./views/Presets.vue";
 
 Vue.use(Router);
 
@@ -53,11 +52,6 @@ export default new Router({
       path: "/results",
       name: "results",
       component: Results
-    },
-    {
-      path: "/presets",
-      name: "presets",
-      component: Presets
     }
   ]
 });
