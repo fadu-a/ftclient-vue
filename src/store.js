@@ -17,12 +17,14 @@ export default new Vuex.Store({
       info: null
     },
     errorMessage: null,
+    presetList: [],
     fioTestcaseList: {}
   },
   getters: {
     runnerList: state => state.runnerList,
     runner: state => state.runner,
     errorMessage: state => state.errorMessage,
+    presetList: state => state.presetList,
     fioTestcaseList: state => Vue._.values(state.fioTestcaseList)
   },
   mutations: {
@@ -66,6 +68,9 @@ export default new Vuex.Store({
     },
     RESET_ERROR_MESSAGE(state) {
       state.errorMessage = null;
+    },
+    SET_PRESET_LIST(state, payload) {
+      state.presetList = payload;
     },
     SET_FIO_TESTCASE_LIST(state, testcaseList) {
       state.fioTestcaseList = Vue._.reduce(
@@ -156,6 +161,14 @@ export default new Vuex.Store({
         })
         .catch(function(err) {
           console.log(err.response);
+        });
+    },
+    getPresetList(context) {
+      axios
+        .get(`${managerUrl}/fio/presets`)
+        .then(res => res.data)
+        .then(presetList => {
+          context.commit("SET_PRESET_LIST", presetList);
         });
     },
     getFioTestcaseList(context) {
