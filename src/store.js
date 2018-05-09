@@ -16,14 +16,12 @@ export default new Vuex.Store({
       status: null,
       info: null
     },
-    errorMessage: null,
-    presetList: []
+    errorMessage: null
   },
   getters: {
     runnerList: state => state.runnerList,
     runner: state => state.runner,
-    errorMessage: state => state.errorMessage,
-    presetList: state => state.presetList
+    errorMessage: state => state.errorMessage
   },
   mutations: {
     SET_RUNNER_LIST(state, payload) {
@@ -66,9 +64,6 @@ export default new Vuex.Store({
     },
     RESET_ERROR_MESSAGE(state) {
       state.errorMessage = null;
-    },
-    SET_PRESET_LIST(state, payload) {
-      state.presetList = payload;
     }
   },
   actions: {
@@ -144,14 +139,6 @@ export default new Vuex.Store({
         .catch(function(err) {
           console.log(err.response);
         });
-    },
-    getPresetList(context) {
-      axios
-      .get(`${managerUrl}/fio/presets`)
-      .then(res => res.data)
-      .then(presetList => {
-        context.commit("SET_PRESET_LIST", presetList);
-      });
     }
   }
 });
