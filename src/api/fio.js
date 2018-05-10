@@ -56,5 +56,13 @@ export default {
       .catch(() => {
         window.alert(`DELETE FIO SCENARIO (ID=${payload.id}) ERROR`);
       });
+  },
+  deletePreset(payload, cb) {
+    axios
+      .delete(`${common.BASE_URL}/fio/presets/${payload.id}/`)
+      .then(() => cb(payload))
+      .catch(() => {
+        window.alert(`DELETE FIO PRESET (ID=${payload.id}) ERROR`);
+      });
   }
 };

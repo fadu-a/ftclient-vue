@@ -44,6 +44,11 @@ const actions = {
     fio.deleteScenario(payload, scenario => {
       commit("DELETE_FIO_SCENARIO", scenario);
     });
+  },
+  deleteFioPreset({ commit }, payload) {
+    fio.deletePreset(payload, preset => {
+      commit("DELETE_FIO_PRESET", preset);
+    });
   }
 };
 
@@ -86,6 +91,9 @@ const mutations = {
   },
   DELETE_FIO_SCENARIO(state, scenario) {
     state.fioScenarios = Vue._.omit(state.fioScenarios, scenario.id);
+  },
+  DELETE_FIO_PRESET(state, preset) {
+    state.fioPresets = Vue._.omit(state.fioPresets, preset.id);
   }
 };
 
