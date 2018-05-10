@@ -1,16 +1,10 @@
 <template>
   <div class="fio-presets">
     <b-container>
-      <b-alert
-        :show="!!errorMessage"
-        variant="danger">
-        {{ errorMessage }}
-      </b-alert>
-
       <h1 class="mb-4">FIO Preset List</h1>
 
       <b-table
-        :items="presetList"
+        :items="fioPresets"
         :fields="fields"
         hover>
         <template
@@ -42,10 +36,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["presetList", "errorMessage"])
+    ...mapGetters(["fioPresets"])
   },
   created() {
-    this.$store.dispatch("getPresetList");
+    this.$store.dispatch("getPresets");
   }
 };
 </script>

@@ -10,7 +10,7 @@
     </b-button>
 
     <b-table
-      :items="runnerList"
+      :items="runners"
       :fields="fields"
       hover>
       <template
@@ -75,10 +75,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["runnerList"])
+    ...mapGetters(["runners"])
   },
   created() {
-    this.$store.dispatch("getRunnerList");
+    this.$store.dispatch("getRunners");
   },
   methods: {
     checkRunner(runner) {

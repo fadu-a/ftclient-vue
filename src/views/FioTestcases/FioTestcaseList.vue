@@ -10,7 +10,7 @@
     </b-button>
 
     <b-table
-      :items="fioTestcaseList"
+      :items="fioTestcases"
       :fields="fields"
       hover>
       <template
@@ -62,10 +62,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["fioTestcaseList"])
+    ...mapGetters(["fioTestcases"])
   },
   created() {
-    this.$store.dispatch("getFioTestcaseList");
+    this.$store.dispatch("getFioTestcases");
   },
   methods: {
     showDetail(item, button) {
