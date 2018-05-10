@@ -18,14 +18,16 @@ export default new Vuex.Store({
     },
     errorMessage: null,
     presetList: [],
-    fioTestcaseList: {}
+    fioTestcaseList: {},
+    fioScenarioList: [],
   },
   getters: {
     runnerList: state => state.runnerList,
     runner: state => state.runner,
     errorMessage: state => state.errorMessage,
     presetList: state => state.presetList,
-    fioTestcaseList: state => Vue._.values(state.fioTestcaseList)
+    fioTestcaseList: state => Vue._.values(state.fioTestcaseList),
+    fioScenarioList: state => state.fioScenarioList
   },
   mutations: {
     SET_RUNNER_LIST(state, payload) {
@@ -87,7 +89,13 @@ export default new Vuex.Store({
     },
     DELETE_FIO_TESTCASE(state, testcase) {
       state.fioTestcaseList = Vue._.omit(state.fioTestcaseList, testcase.id);
-    }
+    },
+    SET_FIO_SCENARIO_LIST(state, payload) {
+      state.fioScenarioList = payload;
+    },
+    DELETE_FIO_SCENARIO(state, payload) {
+      state.fioScenarioList = Vue._.omit(state.fioScenarioList, payload.id);
+    },
   },
   actions: {
     getRunnerList(context) {
@@ -203,6 +211,25 @@ export default new Vuex.Store({
         .delete(`${managerUrl}/fio/testcases/${payload.id}/`)
         .then(() => {
           context.commit("DELETE_FIO_TESTCASE", payload);
+        })
+        .catch(function(err) {
+          console.log(err.response);
+        });
+    },
+    getScenarioList(context) {
+      axios
+        .get(`${managerUrl}/fio/scenarios`)
+        .then(res => res.data)
+        .then(fioScenarioList => {
+          context.commit("SET_FIO_SCENARIO_LIST", fioScenarioList);
+        });
+    },
+    deleteFioScenario(context, payload) {
+      context.commit("RESET_ERROR_MESSAGE");
+      axios
+        .delete(`${managerUrl}/fio/scenarios/${payload.id}/`)
+        .then(() => {
+          context.commit("DELETE_FIO_SCENARIO", payload);
         })
         .catch(function(err) {
           console.log(err.response);
