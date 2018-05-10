@@ -85,6 +85,6 @@ export default new Router({
           component: FioScenarioNew
         }
       ]
-    },
+    }
   ]
 });

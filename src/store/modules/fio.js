@@ -1,6 +1,5 @@
 import Vue from "vue";
 import fio from "../../api/fio";
-import axios from "axios/index";
 
 const state = {
   fioPresets: {},

@@ -7,8 +7,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
-  name: "FioScenarioNew",
+  name: "FioScenarioNew"
 };
 </script>
