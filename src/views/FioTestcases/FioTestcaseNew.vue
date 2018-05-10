@@ -56,9 +56,6 @@ export default {
       }
     };
   },
-  created() {
-    this.$store.dispatch("resetRunner");
-  },
   methods: {
     goBack() {
       this.$router.push("/fio/testcases");

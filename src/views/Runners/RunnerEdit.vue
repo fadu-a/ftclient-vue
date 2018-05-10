@@ -9,7 +9,7 @@
 import RunnerForm from "../../components/Runners/RunnerForm.vue";
 
 export default {
-  name: "Runners",
+  name: "RunnerEdit",
   components: {
     RunnerForm
   },

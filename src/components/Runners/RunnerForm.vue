@@ -42,12 +42,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "RunnerForm",
   computed: {
-    runner() {
-      return this.$store.getters.runner;
-    }
+    ...mapGetters(["runner"])
   },
   methods: {
     backToRunnerList() {
