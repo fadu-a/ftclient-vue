@@ -2,15 +2,6 @@ import axios from "axios";
 import common from "./common";
 
 export default {
-  getPresets(cb) {
-    axios
-      .get(`${common.BASE_URL}/fio/presets`)
-      .then(res => res.data)
-      .then(presets => cb(presets))
-      .catch(() => {
-        window.alert("GET FIO PRESET LIST ERROR");
-      });
-  },
   getTestcases(cb) {
     axios
       .get(`${common.BASE_URL}/fio/testcases/`)
@@ -55,6 +46,23 @@ export default {
       .then(() => cb(payload))
       .catch(() => {
         window.alert(`DELETE FIO SCENARIO (ID=${payload.id}) ERROR`);
+      });
+  },
+  getPresets(cb) {
+    axios
+      .get(`${common.BASE_URL}/fio/presets`)
+      .then(res => res.data)
+      .then(presets => cb(presets))
+      .catch(() => {
+        window.alert("GET FIO PRESET LIST ERROR");
+      });
+  },
+  deletePreset(payload, cb) {
+    axios
+      .delete(`${common.BASE_URL}/fio/presets/${payload.id}/`)
+      .then(() => cb(payload))
+      .catch(() => {
+        window.alert(`DELETE FIO PRESET (ID=${payload.id}) ERROR`);
       });
   }
 };
