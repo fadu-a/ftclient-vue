@@ -3,12 +3,14 @@ import fio from "../../api/fio";
 
 const state = {
   fioPresets: {},
-  fioTestcases: {}
+  fioTestcases: {},
+  fioScenarios: {}
 };
 
 const getters = {
   fioPresets: state => Vue._.values(state.fioPresets),
-  fioTestcases: state => Vue._.values(state.fioTestcases)
+  fioTestcases: state => Vue._.values(state.fioTestcases),
+  fioScenarios: state => Vue._.values(state.fioScenarios)
 };
 
 const actions = {
@@ -31,6 +33,16 @@ const actions = {
   deleteFioTestcase({ commit }, payload) {
     fio.deleteTestcase(payload, testcase => {
       commit("DELETE_FIO_TESTCASE", testcase);
+    });
+  },
+  getFioScenarios({ commit }) {
+    fio.getScenarios(scenarios => {
+      commit("SET_FIO_SCENARIOS", scenarios);
+    });
+  },
+  deleteFioScenario({ commit }, payload) {
+    fio.deleteScenario(payload, scenario => {
+      commit("DELETE_FIO_SCENARIO", scenario);
     });
   }
 };
@@ -61,6 +73,19 @@ const mutations = {
   },
   DELETE_FIO_TESTCASE(state, testcase) {
     state.fioTestcases = Vue._.omit(state.fioTestcases, testcase.id);
+  },
+  SET_FIO_SCENARIOS(state, scenarios) {
+    state.fioScenarios = Vue._.reduce(
+      scenarios,
+      function(obj, scenario) {
+        obj[scenario.id] = scenario;
+        return obj;
+      },
+      {}
+    );
+  },
+  DELETE_FIO_SCENARIO(state, scenario) {
+    state.fioScenarios = Vue._.omit(state.fioScenarios, scenario.id);
   }
 };
 

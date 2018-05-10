@@ -39,5 +39,22 @@ export default {
       .catch(() => {
         window.alert(`DELETE FIO TESTCASE (ID=${payload.id}) ERROR`);
       });
+  },
+  getScenarios(cb) {
+    axios
+      .get(`${common.BASE_URL}/fio/scenarios`)
+      .then(res => res.data)
+      .then(scenarios => cb(scenarios))
+      .catch(() => {
+        window.alert("GET FIO SCENARIO LIST ERROR");
+      });
+  },
+  deleteScenario(payload, cb) {
+    axios
+      .delete(`${common.BASE_URL}/fio/scenarios/${payload.id}/`)
+      .then(() => cb(payload))
+      .catch(() => {
+        window.alert(`DELETE FIO SCENARIO (ID=${payload.id}) ERROR`);
+      });
   }
 };
