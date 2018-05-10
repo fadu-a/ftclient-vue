@@ -14,11 +14,6 @@ const getters = {
 };
 
 const actions = {
-  getPresets({ commit }) {
-    fio.getPresets(presets => {
-      commit("SET_FIO_PRESETS", presets);
-    });
-  },
   getFioTestcases({ commit }) {
     fio.getTestcases(testcases => {
       commit("SET_FIO_TESTCASES", testcases);
@@ -45,6 +40,11 @@ const actions = {
       commit("DELETE_FIO_SCENARIO", scenario);
     });
   },
+  getPresets({ commit }) {
+    fio.getPresets(presets => {
+      commit("SET_FIO_PRESETS", presets);
+    });
+  },
   deleteFioPreset({ commit }, payload) {
     fio.deletePreset(payload, preset => {
       commit("DELETE_FIO_PRESET", preset);
@@ -53,16 +53,6 @@ const actions = {
 };
 
 const mutations = {
-  SET_FIO_PRESETS(state, presets) {
-    state.fioPresets = Vue._.reduce(
-      presets,
-      function(obj, preset) {
-        obj[preset.id] = preset;
-        return obj;
-      },
-      {}
-    );
-  },
   SET_FIO_TESTCASES(state, testcases) {
     state.fioTestcases = Vue._.reduce(
       testcases,
@@ -91,6 +81,16 @@ const mutations = {
   },
   DELETE_FIO_SCENARIO(state, scenario) {
     state.fioScenarios = Vue._.omit(state.fioScenarios, scenario.id);
+  },
+  SET_FIO_PRESETS(state, presets) {
+    state.fioPresets = Vue._.reduce(
+      presets,
+      function(obj, preset) {
+        obj[preset.id] = preset;
+        return obj;
+      },
+      {}
+    );
   },
   DELETE_FIO_PRESET(state, preset) {
     state.fioPresets = Vue._.omit(state.fioPresets, preset.id);

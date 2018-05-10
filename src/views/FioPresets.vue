@@ -14,13 +14,14 @@
             size="sm"
             variant="info"
             class="mr-1"
-            @click="showTC(row.item)">
+            @click="showTestcases(row.item)">
             Show
           </b-button>
           <b-button
             size="sm"
             variant="danger"
             class="mr-1"
+            disabled
             @click="deletePreset(row.item)">
             Delete
           </b-button>
@@ -29,12 +30,13 @@
 
       <b-modal
         id="modal"
-        :title="detail.name+' (Scenario_ID : '+detail.scenarioID+')'"
+        :title="detail.title"
         centered>
+        <h5>Testcase List</h5>
         <div class="d-block">
           <b-table
-            :fields="scenarioFields"
-            :items="detail.testcases"
+            :fields="testcaseFields"
+            :items="detail.testcaseList"
             hover/>
         </div>
         <b-btn
@@ -55,18 +57,17 @@ export default {
   data() {
     return {
       detail: {
-        name: "",
-        testcases: [],
-        scenarioID: ""
+        title: "",
+        testcaseList: []
       },
       presetFields: [
         { key: "", label: "ID", sortable: true },
         { key: "name", label: "Name", sortable: true },
         { key: "actions", label: "Actions" }
       ],
-      scenarioFields: [
+      testcaseFields: [
         { key: "order", label: "Order" },
-        { key: "id", label: "TC_ID" },
+        { key: "id", label: "ID" },
         { key: "name", label: "Name" }
       ]
     };
@@ -80,13 +81,14 @@ export default {
   methods: {
     deletePreset(preset) {
       if (window.confirm("Are you sure?")) {
-        this.$store.dispatch("deletePreset", preset);
+        this.$store.dispatch("deleteFioPreset", preset);
       }
     },
-    showTC(preset) {
-      this.detail.name = preset.name;
-      this.detail.testcases = preset.scenario.testcases;
-      this.detail.scenarioID = preset.scenario.id;
+    showTestcases(preset) {
+      this.detail.title = `${preset.name} (Scenario ID : ${
+        preset.scenario.id
+      })`;
+      this.detail.testcaseList = preset.scenario.testcases;
       this.$root.$emit("bv::show::modal", "modal");
     }
   }

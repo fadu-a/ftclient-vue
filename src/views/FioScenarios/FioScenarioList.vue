@@ -21,7 +21,7 @@
             variant="info"
             size="sm"
             class="mr-1"
-            @click="showTC(row.item)">TC List</b-btn>
+            @click="showTestcases(row.item)">Show</b-btn>
           <b-btn
             variant="danger"
             size="sm"
@@ -34,9 +34,10 @@
         id="modal"
         :title="detail.name"
         centered>
+        <h5>Testcase List</h5>
         <div class="d-block">
           <b-table
-            :fields="TCFields"
+            :fields="testcaseFields"
             :items="detail.testcaseList"/>
         </div>
         <b-btn
@@ -65,9 +66,9 @@ export default {
         name: "",
         testcaseList: []
       },
-      TCFields: [
+      testcaseFields: [
         { key: "order", label: "Order" },
-        { key: "id", label: "TC_id" },
+        { key: "id", label: "ID" },
         { key: "name", label: "Name" }
       ]
     };
@@ -84,7 +85,7 @@ export default {
         this.$store.dispatch("deleteFioScenario", scenario);
       }
     },
-    showTC(scenario) {
+    showTestcases(scenario) {
       this.detail.name = scenario.name;
       this.detail.testcaseList = scenario.testcases;
       this.$root.$emit("bv::show::modal", "modal");
