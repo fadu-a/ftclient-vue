@@ -1,27 +1,10 @@
 <template>
   <b-container>
-    <h2>Test case list     <font size="3">Select the testcases for scenario</font></h2>
-    <b-table
-      :fields="fields"
-      :items="fioTestcases">
-      <template
-        slot="checkbox"
-        slot-scope="row">
-        <b-form-group>
-          <b-form-checkbox-group
-            v-model="selected">
-            <b-form-checkbox
-              :value="{id:row.item.id, name:row.item.name, order: Number}"/>
-          </b-form-checkbox-group>
-        </b-form-group>
-      </template>
-    </b-table>
+    <h1>New Scenario</h1>
 
-    <br>
+    <br />
 
-    <label 
-      id="label" 
-      for="scenarioTitle">Title:</label>
+    <label for="scenarioTitle" id="label">Title:</label>
     <b-form-input
       id="scenarioTitle"
       v-model="scenario.name"
@@ -30,19 +13,31 @@
       placeholder="Enter the scenario name"/>
 
     <b-card
-      id="card"
       border-variant="danger"
-      header="<font size='4'><b>New Scenario</b></font> <font size='2'>You can move the card in order you want</font>">
+      header="<font size='5'><b>New Scenario</b></font> <font size='2'>You can move the card in order you want</font>"
+      id="card">
       <draggable
         v-model="selected"
         class="dragArea">
+          <b-btn
+            v-for="(element, index) in selected"
+            :key="element.id"
+            variant="outline-secondary"
+            class="mr-1 my-1">{{ index+1 }}. {{ element.name }}</b-btn>
+      </draggable>
+    </b-card>
+
+    <b-card
+      border-variant="secondary"
+      header="<font size='5'><b>Test case list</b></font> <font size='2'>Select the testcases for scenario</font>"
+      id="card">
         <b-btn
-          v-for="(element, index) in selected"
-          :key="element.id"
+          v-for="(TC, index) in fioTestcases"
+          :key="TC.id"
           variant="outline-secondary"
           class="mr-1"
-          @click="orderReplace(index)">{{ index }}. {{ element.name }}</b-btn>
-      </draggable>
+          @click="addTC(TC)">{{ TC.name }}
+        </b-btn>
     </b-card>
 
     <b-button
@@ -61,26 +56,22 @@
 </template>
 
 <script>
-import draggable from "vuedraggable";
-import { mapGetters } from "vuex";
+import draggable from 'vuedraggable';
+import { mapGetters } from 'vuex';
 
 export default {
   name: "FioScenarioNew",
   components: {
-    draggable
+    draggable,
   },
   data() {
     return {
-      fields: [
-        { key: "id", label: "ID", sortable: true },
-        { key: "name", label: "Name", sortable: true },
-        { key: "checkbox", label: "Select" }
-      ],
       selected: [],
       scenario: {
         name: ""
-      }
-    };
+      },
+      order: 1
+    }
   },
   computed: {
     ...mapGetters(["fioTestcases"])
@@ -90,18 +81,21 @@ export default {
   },
   methods: {
     reset() {
-      this.selected = [];
-      this.scenario.name = "";
+      this.selected = []
     },
     save() {
-      this.selected.forEach(function(value, i) {
-        value.order = i + 1;
+      this.selected.forEach(function (value, i) {
+        value.order = i+1
       }),
-        this.$store.dispatch("addFioScenario", {
-          name: this.scenario.name,
-          testcases: this.selected,
-          router: this.$router
-        });
+      console.log()
+      this.$store.dispatch("addFioScenario", {
+        name: this.scenario.name,
+        testcases: this.selected,
+        router: this.$router
+      });
+    },
+    addTC(TC) {
+      this.selected.push({id: TC.id, name: TC.name});
     }
   }
 };
@@ -110,15 +104,16 @@ export default {
 <style lang="scss">
 #checkbox {
   width: 30px;
-  margin-top: -25px;
-  margin-left: 230px;
+  margin-top: -26px;
+  margin-left: 260px;
 }
 #card {
   margin-bottom: 20px;
-  margin-top: 15px;
+  margin-top: 15px
 }
 #scenarioTitle {
   margin-left: 50px;
   margin-top: -40px;
 }
+
 </style>
