@@ -3,14 +3,17 @@ import fio from "../../api/fio";
 
 const state = {
   fioPresets: {},
+  fioScenarios: {},
   fioTestcases: {},
-  fioScenarios: {}
+  fioResults: {}
 };
 
 const getters = {
   fioPresets: state => Vue._.values(state.fioPresets),
+  fioScenarios: state => Vue._.values(state.fioScenarios),
   fioTestcases: state => Vue._.values(state.fioTestcases),
-  fioScenarios: state => Vue._.values(state.fioScenarios)
+  fioResults: state => Vue._.values(state.fioResults),
+  fioResult: state => resultId => state.fioResults[resultId]
 };
 
 const actions = {
@@ -35,9 +38,21 @@ const actions = {
       commit("SET_FIO_SCENARIOS", scenarios);
     });
   },
+  addFioScenario({ commit }, payload) {
+    fio.addScenario(payload, scenario => {
+      commit("ADD_FIO_SCENARIO", scenario);
+      payload.router.push("/fio/scenarios");
+    });
+  },
   deleteFioScenario({ commit }, payload) {
     fio.deleteScenario(payload, scenario => {
       commit("DELETE_FIO_SCENARIO", scenario);
+    });
+  },
+  runFioScenario({ commit }, payload) {
+    fio.runScenario(payload, result => {
+      commit("ADD_FIO_RESULT", result);
+      payload.router.push(`/fio/results/${result.id}`);
     });
   },
   getPresets({ commit }) {
@@ -50,15 +65,24 @@ const actions = {
       commit("DELETE_FIO_PRESET", preset);
     });
   },
-  addFioScenario({ commit }, payload) {
-    fio.addScenario(payload, scenario => {
-      commit("ADD_FIO_SCENARIO", scenario);
-      payload.router.push("/fio/scenarios");
+  getFioResults({ commit }) {
+    fio.getResults(results => {
+      commit("SET_FIO_RESULTS", results);
     });
   }
 };
 
 const mutations = {
+  SET_FIO_RESULTS(state, results) {
+    state.fioResults = Vue._.reduce(
+      results,
+      function(obj, result) {
+        obj[result.id] = result;
+        return obj;
+      },
+      {}
+    );
+  },
   SET_FIO_TESTCASES(state, testcases) {
     state.fioTestcases = Vue._.reduce(
       testcases,
@@ -103,6 +127,9 @@ const mutations = {
   },
   ADD_FIO_SCENARIO(state, scenario) {
     state.fioScenarios[scenario.id] = scenario;
+  },
+  ADD_FIO_RESULT(state, result) {
+    state.fioResults[result.id] = result;
   }
 };
 

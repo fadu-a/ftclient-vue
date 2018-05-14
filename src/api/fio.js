@@ -31,6 +31,7 @@ export default {
         window.alert(`DELETE FIO TESTCASE (ID=${payload.id}) ERROR`);
       });
   },
+
   getScenarios(cb) {
     axios
       .get(`${common.BASE_URL}/fio/scenarios`)
@@ -40,12 +41,36 @@ export default {
         window.alert("GET FIO SCENARIO LIST ERROR");
       });
   },
+  addScenario(payload, cb) {
+    axios
+      .post(`${common.BASE_URL}/fio/scenarios/`, {
+        name: payload.name,
+        testcases: payload.testcases
+      })
+      .then(res => res.data)
+      .then(scenario => cb(scenario))
+      .catch(() => {
+        window.alert("POST FIO SCENARIO ERROR");
+      });
+  },
   deleteScenario(payload, cb) {
     axios
       .delete(`${common.BASE_URL}/fio/scenarios/${payload.id}/`)
       .then(() => cb(payload))
       .catch(() => {
         window.alert(`DELETE FIO SCENARIO (ID=${payload.id}) ERROR`);
+      });
+  },
+  runScenario(payload, cb) {
+    axios
+      .post(`${common.BASE_URL}/fio/results/`, {
+        scenario: payload.scenarioId,
+        runner: 4
+      })
+      .then(res => res.data)
+      .then(result => cb(result))
+      .catch(() => {
+        window.alert("RUN FIO SCENARIO ERROR");
       });
   },
   getPresets(cb) {
@@ -65,16 +90,13 @@ export default {
         window.alert(`DELETE FIO PRESET (ID=${payload.id}) ERROR`);
       });
   },
-  addScenario(payload, cb) {
+  getResults(cb) {
     axios
-      .post(`${common.BASE_URL}/fio/scenarios/`, {
-        name: payload.name,
-        testcases: payload.testcases
-      })
+      .get(`${common.BASE_URL}/fio/results`)
       .then(res => res.data)
-      .then(scenario => cb(scenario))
+      .then(results => cb(results))
       .catch(() => {
-        window.alert("POST FIO SCENARIO ERROR");
+        window.alert("GET FIO RESULT LIST ERROR");
       });
   }
 };
