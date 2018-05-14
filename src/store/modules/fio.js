@@ -3,14 +3,17 @@ import fio from "../../api/fio";
 
 const state = {
   fioPresets: {},
+  fioScenarios: {},
   fioTestcases: {},
-  fioScenarios: {}
+  fioResults: {}
 };
 
 const getters = {
   fioPresets: state => Vue._.values(state.fioPresets),
+  fioScenarios: state => Vue._.values(state.fioScenarios),
   fioTestcases: state => Vue._.values(state.fioTestcases),
-  fioScenarios: state => Vue._.values(state.fioScenarios)
+  fioResults: state => Vue._.values(state.fioResults),
+  fioResult: state => resultId => state.fioResults[resultId]
 };
 
 const actions = {
@@ -35,9 +38,21 @@ const actions = {
       commit("SET_FIO_SCENARIOS", scenarios);
     });
   },
+  addFioScenario({ commit }, payload) {
+    fio.addScenario(payload, scenario => {
+      commit("ADD_FIO_SCENARIO", scenario);
+      payload.router.push("/fio/scenarios");
+    });
+  },
   deleteFioScenario({ commit }, payload) {
     fio.deleteScenario(payload, scenario => {
       commit("DELETE_FIO_SCENARIO", scenario);
+    });
+  },
+  runFioScenario({ commit }, payload) {
+    fio.runScenario(payload, result => {
+      commit("ADD_FIO_RESULT", result);
+      payload.router.push(`/fio/results/${result.id}`);
     });
   },
   getPresets({ commit }) {
@@ -48,12 +63,6 @@ const actions = {
   deleteFioPreset({ commit }, payload) {
     fio.deletePreset(payload, preset => {
       commit("DELETE_FIO_PRESET", preset);
-    });
-  },
-  addFioScenario({ commit }, payload) {
-    fio.addScenario(payload, scenario => {
-      commit("ADD_FIO_SCENARIO", scenario);
-      payload.router.push("/fio/scenarios");
     });
   }
 };
@@ -103,6 +112,9 @@ const mutations = {
   },
   ADD_FIO_SCENARIO(state, scenario) {
     state.fioScenarios[scenario.id] = scenario;
+  },
+  ADD_FIO_RESULT(state, result) {
+    state.fioResults[result.id] = result;
   }
 };
 

@@ -10,10 +10,11 @@ import FioTestcases from "./views/FioTestcases.vue";
 import FioTestcaseList from "./views/FioTestcases/FioTestcaseList.vue";
 import FioTestcaseNew from "./views/FioTestcases/FioTestcaseNew.vue";
 import FioPresets from "./views/FioPresets.vue";
-import Results from "./views/Results.vue";
 import FioScenarios from "./views/FioScenarios.vue";
 import FioScenarioNew from "./views/FioScenarios/FioScenarioNew";
 import FioScenarioList from "./views/FioScenarios/FioScenarioList";
+import FioResults from "./views/FioResults";
+import FioResultDetail from "./views/FioResults/FioResultDetail";
 
 Vue.use(Router);
 
@@ -68,11 +69,6 @@ export default new Router({
       ]
     },
     {
-      path: "/results",
-      name: "results",
-      component: Results
-    },
-    {
       path: "/fio/scenarios",
       component: FioScenarios,
       children: [
@@ -83,6 +79,18 @@ export default new Router({
         {
           path: "new",
           component: FioScenarioNew
+        }
+      ]
+    },
+    {
+      path: "/fio/results",
+      component: FioResults,
+      children: [
+        {
+          path: ":resultId",
+          name: "fio-result",
+          component: FioResultDetail,
+          props: true
         }
       ]
     }

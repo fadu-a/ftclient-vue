@@ -18,15 +18,25 @@
           slot="actions"
           slot-scope="row">
           <b-btn
+            variant="primary"
+            size="sm"
+            class="mr-1"
+            @click="runScenario(row.item)">
+            Run
+          </b-btn>
+          <b-btn
             variant="info"
             size="sm"
             class="mr-1"
-            @click="showTestcases(row.item)">Show</b-btn>
+            @click="showTestcases(row.item)">
+            Show
+          </b-btn>
           <b-btn
             variant="danger"
             size="sm"
-            class="mr-1"
-            @click="deleteScenario(row.item)">Delete</b-btn>
+            @click="deleteScenario(row.item)">
+            Delete
+          </b-btn>
         </template>
       </b-table>
 
@@ -80,6 +90,12 @@ export default {
     this.$store.dispatch("getFioScenarios");
   },
   methods: {
+    runScenario(scenario) {
+      this.$store.dispatch("runFioScenario", {
+        scenarioId: scenario.id,
+        router: this.$router
+      });
+    },
     deleteScenario(scenario) {
       if (window.confirm("Are you sure?")) {
         this.$store.dispatch("deleteFioScenario", scenario);

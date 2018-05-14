@@ -15,7 +15,7 @@
           <b-nav-item to="/fio/presets">Presets</b-nav-item>
           <b-nav-item to="/fio/testcases">Testcases</b-nav-item>
           <b-nav-item to="/fio/scenarios">Scenarios</b-nav-item>
-          <b-nav-item to="/results">Results</b-nav-item>
+          <b-nav-item to="/fio/results">Results</b-nav-item>
           <b-nav-item to="/about">About</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
