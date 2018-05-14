@@ -8,6 +8,9 @@
 
 <script>
 export default {
-  name: "FioResults"
+  name: "FioResults",
+  created() {
+    this.$store.dispatch("getFioResults");
+  }
 };
 </script>

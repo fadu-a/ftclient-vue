@@ -89,5 +89,14 @@ export default {
       .catch(() => {
         window.alert(`DELETE FIO PRESET (ID=${payload.id}) ERROR`);
       });
+  },
+  getResults(cb) {
+    axios
+      .get(`${common.BASE_URL}/fio/results`)
+      .then(res => res.data)
+      .then(results => cb(results))
+      .catch(() => {
+        window.alert("GET FIO RESULT LIST ERROR");
+      });
   }
 };

@@ -64,10 +64,25 @@ const actions = {
     fio.deletePreset(payload, preset => {
       commit("DELETE_FIO_PRESET", preset);
     });
+  },
+  getFioResults({ commit }) {
+    fio.getResults(results => {
+      commit("SET_FIO_RESULTS", results);
+    });
   }
 };
 
 const mutations = {
+  SET_FIO_RESULTS(state, results) {
+    state.fioResults = Vue._.reduce(
+      results,
+      function(obj, result) {
+        obj[result.id] = result;
+        return obj;
+      },
+      {}
+    );
+  },
   SET_FIO_TESTCASES(state, testcases) {
     state.fioTestcases = Vue._.reduce(
       testcases,
