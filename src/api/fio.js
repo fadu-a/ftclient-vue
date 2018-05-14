@@ -64,5 +64,17 @@ export default {
       .catch(() => {
         window.alert(`DELETE FIO PRESET (ID=${payload.id}) ERROR`);
       });
+  },
+  addScenario(payload, cb) {
+    axios
+      .post(`${common.BASE_URL}/fio/scenarios/`, {
+        name: payload.name,
+        testcases: payload.testcases
+      })
+      .then(res => res.data)
+      .then(scenario => cb(scenario))
+      .catch(() => {
+        window.alert("POST FIO SCENARIO ERROR");
+      });
   }
 };

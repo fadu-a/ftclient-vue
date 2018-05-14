@@ -7,7 +7,7 @@
         variant="primary"
         class="float-right mb-2"
         to="/fio/scenarios/new">
-        Add Scenario
+        Make Scenario
       </b-button>
 
       <b-table
