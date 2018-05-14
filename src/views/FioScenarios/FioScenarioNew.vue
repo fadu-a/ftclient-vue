@@ -23,8 +23,16 @@
             <b-badge 
               variant="primary" 
               pill 
-              class="mr-4">{{ index + 1 }}</b-badge>
+              class="mr-4">{{ index + 1 }}
+            </b-badge>
             {{ testcase.name }}
+            <b-btn
+              size="sm"
+              variant="danger"
+              class="ml-auto"
+              @click="deselectTestcase(index)">
+              Delete
+            </b-btn>
           </b-list-group-item>
         </draggable>
       </b-list-group>
@@ -106,6 +114,9 @@ export default {
     },
     selectTestcase(testcase) {
       this.scenario.testcases.push(testcase);
+    },
+    deselectTestcase(index) {
+      this.scenario.testcases.splice(index, 1);
     }
   }
 };
