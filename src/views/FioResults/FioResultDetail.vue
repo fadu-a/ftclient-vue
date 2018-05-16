@@ -2,22 +2,24 @@
   <div class="fio-result-detail">
     <h1 class="mb-4">FIO Result Detail</h1>
 
-    <h4>Test Date:</h4>
-    <p>{{ test_date }}</p>
+    <div v-if="!!result">
+      <h4>Test Date:</h4>
+      <p>{{ result.test_date }}</p>
 
-    <h4>Status:</h4>
-    <p><FioResultStatusBadge :status="result.status"/></p>
+      <h4>Status:</h4>
+      <p><FioResultStatusBadge :status="result.status"/></p>
 
-    <h4>Logs:</h4>
+      <h4>Logs:</h4>
 
-    <div 
-      v-for="ioLog in sortedIoLogs" 
-      :key="ioLog.id">
-      <h5>{{ ioLog.testcase_name }} (Order: {{ ioLog.order }})</h5>
+      <div
+        v-for="ioLog in sortedIoLogs"
+        :key="ioLog.id">
+        <h5>{{ ioLog.testcase_name }} (Order: {{ ioLog.order }})</h5>
 
-      <b-table
-        :items="parsedIoLogs(ioLog.data)"
-        hover/>
+        <b-table
+          :items="parsedIoLogs(ioLog.data)"
+          hover/>
+      </div>
     </div>
   </div>
 </template>
@@ -43,12 +45,6 @@ export default {
       return this.result.io_logs
         .slice(0)
         .sort((a, b) => a.testcase_id - b.testcase_id);
-    },
-    test_date() {
-      return this.result ? this.result.test_date : "Unknown";
-    },
-    status() {
-      return this.result ? this.result.status : -1;
     }
   },
   mounted() {
