@@ -6,10 +6,19 @@
     <p>{{ test_date }}</p>
 
     <h4>Status:</h4>
-    <p><FioResultStatusBadge :status="status"/></p>
+    <p><FioResultStatusBadge :status="result.status"/></p>
 
     <h4>Logs:</h4>
-    <p>TBD</p>
+
+    <div 
+      v-for="ioLog in sortedIoLogs" 
+      :key="ioLog.id">
+      <h5>{{ ioLog.testcase_name }} (Order: {{ ioLog.order }})</h5>
+
+      <b-table
+        :items="parsedIoLogs(ioLog.data)"
+        hover/>
+    </div>
   </div>
 </template>
 
@@ -30,11 +39,16 @@ export default {
     result() {
       return this.$store.getters.fioResult(this.$route.params.resultId);
     },
+    sortedIoLogs() {
+      return this.result.io_logs
+        .slice(0)
+        .sort((a, b) => a.testcase_id - b.testcase_id);
+    },
     test_date() {
-      return this.result ? this.result.test_date : "";
+      return this.result ? this.result.test_date : "Unknown";
     },
     status() {
-      return this.result ? this.result.status : 0;
+      return this.result ? this.result.status : -1;
     }
   },
   mounted() {
@@ -48,6 +62,22 @@ export default {
   methods: {
     pollResultList() {
       this.$store.dispatch("getFioResults");
+    },
+    parsedIoLogs(logData) {
+      return logData.map(log => {
+        const logArray = log.split(";");
+
+        return {
+          read_bw: logArray[6],
+          read_iops: logArray[7],
+          write_bw: logArray[47],
+          write_iops: logArray[48],
+          read_lat_max: logArray[14],
+          read_lat_mean: logArray[15],
+          write_lat_max: logArray[55],
+          write_lat_mean: logArray[56]
+        };
+      });
     }
   }
 };
