@@ -21,20 +21,19 @@
             variant="primary"
             size="sm"
             class="mr-1"
-            @click="Run(row.item)">
+            @click="showRunnerListModal(row.item)">
             Run
           </b-btn>
           <b-btn
             variant="info"
             size="sm"
             class="mr-1"
-            @click="showTestcases(row.item)">
+            @click="showTestcaseListModal(row.item)">
             Show
           </b-btn>
           <b-btn
             variant="danger"
             size="sm"
-            class="mr-1"
             @click="deleteScenario(row.item)">
             Delete
           </b-btn>
@@ -66,7 +65,7 @@
         title="Idle Runner List">
         <b-form-group>
           <b-form-radio-group
-            v-model="selected"
+            v-model="selectedRunnerId"
             stacked>
             <b-form-radio
               v-for="runner in runners"
@@ -83,9 +82,9 @@
           variant="outline-primary"
           block
           @click="runScenario()">RUN</b-btn>
-        </b-modal>
-      </b-container>
-    </div>
+      </b-modal>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -102,19 +101,19 @@ export default {
       ],
       detail: {
         name: "",
-        testcaseList: [],
+        testcaseList: []
       },
       testcaseFields: [
         { key: "order", label: "Order" },
         { key: "id", label: "ID" },
         { key: "name", label: "Name" }
       ],
-      selected: "",
-      selectedScenarioID: ""
+      selectedRunnerId: "",
+      selectedScenarioId: ""
     };
   },
   computed: {
-    ...mapGetters(["fioScenarios","runners"])
+    ...mapGetters(["fioScenarios", "runners"])
   },
   created() {
     this.$store.dispatch("getFioScenarios");
@@ -123,9 +122,9 @@ export default {
   methods: {
     runScenario() {
       this.$store.dispatch("runFioScenario", {
-        scenarioId: this.selectedScenarioID,
+        scenarioId: this.selectedScenarioId,
         router: this.$router,
-        runnerId: this.selected
+        runnerId: this.selectedRunnerId
       });
     },
     deleteScenario(scenario) {
@@ -133,15 +132,15 @@ export default {
         this.$store.dispatch("deleteFioScenario", scenario);
       }
     },
-    showTestcases(scenario) {
+    showTestcaseListModal(scenario) {
       this.detail.name = scenario.name;
       this.detail.testcaseList = scenario.testcases;
       this.$root.$emit("bv::show::modal", "modal");
     },
-    Run(scenario) {
-      this.selectedScenarioID = scenario.id
+    showRunnerListModal(scenario) {
+      this.selectedScenarioId = scenario.id;
       this.$root.$emit("bv::show::modal", "runner");
-    },
+    }
   }
 };
 </script>
