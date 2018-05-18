@@ -65,7 +65,7 @@ export default {
     axios
       .post(`${common.BASE_URL}/fio/results/`, {
         scenario: payload.scenarioId,
-        runner: 4
+        runner: payload.runnerId
       })
       .then(res => res.data)
       .then(result => cb(result))
