@@ -52,7 +52,7 @@ const actions = {
   runFioScenario({ commit }, payload) {
     fio.runScenario(payload, result => {
       commit("ADD_FIO_RESULT", result);
-      payload.router.push(`/fio/results/${result.id}`);
+      payload.router.push(`/fio/results`);
     });
   },
   getPresets({ commit }) {

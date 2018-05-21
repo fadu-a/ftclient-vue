@@ -15,6 +15,7 @@ import FioScenarioNew from "./views/FioScenarios/FioScenarioNew";
 import FioScenarioList from "./views/FioScenarios/FioScenarioList";
 import FioResults from "./views/FioResults";
 import FioResultDetail from "./views/FioResults/FioResultDetail";
+import FioResultDashboard from "./views/FioResults/FioResultDashboard";
 
 Vue.use(Router);
 
@@ -91,6 +92,10 @@ export default new Router({
           name: "fio-result",
           component: FioResultDetail,
           props: true
+        },
+        {
+          path: "",
+          component: FioResultDashboard
         }
       ]
     }
