@@ -65,7 +65,7 @@
         title="Idle Runner List">
         <b-form-group>
           <b-form-checkbox-group
-            v-model="selectedRunnerId"
+            v-model="selectedRunnerIds"
             stacked>
             <b-form-checkbox
               v-for="runner in runners"
@@ -108,7 +108,7 @@ export default {
         { key: "id", label: "ID" },
         { key: "name", label: "Name" }
       ],
-      selectedRunnerId: [],
+      selectedRunnerIds: [],
       selectedScenarioId: ""
     };
   },
@@ -121,11 +121,11 @@ export default {
   },
   methods: {
     runScenario() {
-      for (var index in this.selectedRunnerId) {
+      for (var index in this.selectedRunnerIds) {
         this.$store.dispatch("runFioScenario", {
           scenarioId: this.selectedScenarioId,
           router: this.$router,
-          runnerId: this.selectedRunnerId[index]
+          runnerId: this.selectedRunnerIds[index]
         });
       }
     },
