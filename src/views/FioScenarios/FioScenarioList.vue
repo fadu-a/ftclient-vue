@@ -64,18 +64,18 @@
         size="sm"
         title="Idle Runner List">
         <b-form-group>
-          <b-form-radio-group
+          <b-form-checkbox-group
             v-model="selectedRunnerId"
             stacked>
-            <b-form-radio
+            <b-form-checkbox
               v-for="runner in runners"
               v-if="runner.status == 1"
               :value="runner.id"
               :key="runner.id"
               class="mr-2">
               ID : {{ runner.id }} - {{ runner.host }}:{{ runner.port }}
-            </b-form-radio>
-          </b-form-radio-group>
+            </b-form-checkbox>
+          </b-form-checkbox-group>
         </b-form-group>
         <b-btn
           class="mt-3"
@@ -108,8 +108,8 @@ export default {
         { key: "id", label: "ID" },
         { key: "name", label: "Name" }
       ],
-      selectedRunnerId: "",
-      selectedScenarioId: ""
+      selectedRunnerId: [],
+      selectedScenarioId: "",
     };
   },
   computed: {
@@ -121,11 +121,13 @@ export default {
   },
   methods: {
     runScenario() {
-      this.$store.dispatch("runFioScenario", {
-        scenarioId: this.selectedScenarioId,
-        router: this.$router,
-        runnerId: this.selectedRunnerId
-      });
+      for(var index in this.selectedRunnerId) {
+        this.$store.dispatch("runFioScenario", {
+          scenarioId: this.selectedScenarioId,
+          router: this.$router,
+          runnerId: this.selectedRunnerId[index]
+        });
+      }
     },
     deleteScenario(scenario) {
       if (window.confirm("Are you sure?")) {
