@@ -109,7 +109,7 @@ export default {
         { key: "name", label: "Name" }
       ],
       selectedRunnerId: [],
-      selectedScenarioId: "",
+      selectedScenarioId: ""
     };
   },
   computed: {
@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     runScenario() {
-      for(var index in this.selectedRunnerId) {
+      for (var index in this.selectedRunnerId) {
         this.$store.dispatch("runFioScenario", {
           scenarioId: this.selectedScenarioId,
           router: this.$router,
