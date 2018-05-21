@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     runScenario() {
-      for (var index in this.selectedRunnerIds) {
+      for (let index in this.selectedRunnerIds) {
         this.$store.dispatch("runFioScenario", {
           scenarioId: this.selectedScenarioId,
           router: this.$router,
