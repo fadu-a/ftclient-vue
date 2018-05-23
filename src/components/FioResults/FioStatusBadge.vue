@@ -15,9 +15,9 @@ export default {
     variantType() {
       switch (this.status) {
         case 0:
-          return "info";
-        case 1:
           return "success";
+        case 1:
+          return "secondary";
         default:
           return "danger";
       }
