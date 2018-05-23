@@ -20,9 +20,9 @@
             v-for="(testcase, index) in scenario.testcases"
             :key="index"
             class="d-flex align-items-center">
-            <b-badge 
-              variant="primary" 
-              pill 
+            <b-badge
+              variant="primary"
+              pill
               class="mr-4">{{ index + 1 }}
             </b-badge>
             {{ testcase.name }}

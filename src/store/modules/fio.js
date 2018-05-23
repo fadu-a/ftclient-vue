@@ -5,7 +5,8 @@ const state = {
   fioPresets: {},
   fioScenarios: {},
   fioTestcases: {},
-  fioResults: {}
+  fioResults: {},
+  runningTest: []
 };
 
 const getters = {
@@ -13,7 +14,8 @@ const getters = {
   fioScenarios: state => Vue._.values(state.fioScenarios),
   fioTestcases: state => Vue._.values(state.fioTestcases),
   fioResults: state => Vue._.values(state.fioResults),
-  fioResult: state => resultId => state.fioResults[resultId]
+  fioResult: state => resultId => state.fioResults[resultId],
+  runningTest: state => Vue._.values(state.runningTest)
 };
 
 const actions = {
@@ -130,6 +132,7 @@ const mutations = {
   },
   ADD_FIO_RESULT(state, result) {
     state.fioResults[result.id] = result;
+    state.runningTest.push(result);
   }
 };
 
